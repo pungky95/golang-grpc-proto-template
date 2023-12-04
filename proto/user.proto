@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option go_package = "./generated";
+
+package user;
+
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc CreateUser (CreateUserInput) returns (User) {}
+  rpc UpdateUser (UpdateUserInput) returns (User) {}
+  rpc DetailUser (DetailUserInput) returns (User) {}
+  rpc ListUser (ListUserInput) returns (ListUserResponse) {}
+  rpc DeleteUser (DeleteUserInput) returns (User) {}
+}
+
+message CreateUserInput {
+  string phone = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UpdateUserInput {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+message DetailUserInput { string id = 1; }
+
+message DeleteUserInput { string id = 1; }
+
+message ListUserInput { 
+  int32 page = 1; 
+  int32 limit = 2;  
+  optional string search = 3; 
+}
+
+message ListUserResponse { 
+  repeated User users = 1; 
+  int32 page = 2;
+  int32 limit = 3;
+  int32 total = 4;
+  int32 total_page = 5;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  google.protobuf.Timestamp createdAt = 5;
+  google.protobuf.Timestamp updatedAt = 6;
+}
